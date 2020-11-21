@@ -4,9 +4,9 @@
         "post0": {
             "title": "Title",
             "content": "import pandas as pd import numpy as np #import matplotlib as matplot . covid = pd.read_csv(&quot;owid-covid-data.csv&quot;) . covid.groupby(&quot;date&quot;).sum().total_cases.plot(); . covid[covid.iso_code == &quot;USA&quot;].total_cases.plot(); .",
-            "url": "https://doku.github.io/fbooks/2020/11/20/test_notebook_convert.html",
-            "relUrl": "/2020/11/20/test_notebook_convert.html",
-            "date": " • Nov 20, 2020"
+            "url": "https://doku.github.io/fbooks/2020/11/21/test_notebook_convert.html",
+            "relUrl": "/2020/11/21/test_notebook_convert.html",
+            "date": " • Nov 21, 2020"
         }
         
     
