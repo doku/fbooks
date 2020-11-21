@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Title | fastpages</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Title" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="An easy to use blogging platform with support for Jupyter Notebooks." />
+<meta property="og:description" content="An easy to use blogging platform with support for Jupyter Notebooks." />
+<link rel="canonical" href="https://fastpages.fast.ai/2020/11/20/Covid-EDA.html" />
+<meta property="og:url" content="https://fastpages.fast.ai/2020/11/20/Covid-EDA.html" />
+<meta property="og:site_name" content="fastpages" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-11-20T00:00:00-06:00" />
+<script type="application/ld+json">
+{"url":"https://fastpages.fast.ai/2020/11/20/Covid-EDA.html","@type":"BlogPosting","headline":"Title","dateModified":"2020-11-20T00:00:00-06:00","datePublished":"2020-11-20T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://fastpages.fast.ai/2020/11/20/Covid-EDA.html"},"description":"An easy to use blogging platform with support for Jupyter Notebooks.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://fastpages.fast.ai/feed.xml" title="fastpages" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-57531313-5','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">fastpages</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Title</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-11-20T00:00:00-06:00" itemprop="datePublished">
+        Nov 20, 2020
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      5 min read
+    
+</span></p>
+
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/fastai/fastpages/tree/master/_notebooks/Covid EDA.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/fastai/fastpages/master?filepath=_notebooks%2FCovid+EDA.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/fastai/fastpages/blob/master/_notebooks/Covid EDA.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/Covid EDA.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Registered S3 methods overwritten by &#39;ggplot2&#39;:
+  method         from 
+  [.quosures     rlang
+  c.quosures     rlang
+  print.quosures rlang
+Registered S3 method overwritten by &#39;rvest&#39;:
+  method            from
+  read_xml.response xml2
+-- Attaching packages --------------------------------------- tidyverse 1.2.1 --
+v ggplot2 3.1.1       v purrr   0.3.2  
+v tibble  2.1.1       v dplyr   0.8.0.1
+v tidyr   0.8.3       v stringr 1.4.0  
+v readr   1.3.1       v forcats 0.4.0  
+-- Conflicts ------------------------------------------ tidyverse_conflicts() --
+x dplyr::filter() masks stats::filter()
+x dplyr::lag()    masks stats::lag()
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">covid</span> <span class="o">&lt;-</span> <span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;owid-covid-data.csv&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Parsed with column specification:
+cols(
+  .default = col_double(),
+  iso_code = col_character(),
+  continent = col_character(),
+  location = col_character(),
+  date = col_date(format = &#34;&#34;),
+  icu_patients = col_logical(),
+  icu_patients_per_million = col_logical(),
+  hosp_patients = col_logical(),
+  hosp_patients_per_million = col_logical(),
+  weekly_icu_admissions = col_logical(),
+  weekly_icu_admissions_per_million = col_logical(),
+  weekly_hosp_admissions = col_logical(),
+  weekly_hosp_admissions_per_million = col_logical(),
+  total_tests = col_logical(),
+  new_tests = col_logical(),
+  total_tests_per_thousand = col_logical(),
+  new_tests_per_thousand = col_logical(),
+  new_tests_smoothed = col_logical(),
+  new_tests_smoothed_per_thousand = col_logical(),
+  tests_per_case = col_logical(),
+  positive_rate = col_logical()
+  # ... with 4 more columns
+)
+See spec(...) for full column specifications.
+Warning message:
+&#34;341404 parsing failures.
+ row             col           expected actual                  file
+1042 extreme_poverty 1/0/T/F/TRUE/FALSE   1.1  &#39;owid-covid-data.csv&#39;
+1042 female_smokers  1/0/T/F/TRUE/FALSE   7.1  &#39;owid-covid-data.csv&#39;
+1042 male_smokers    1/0/T/F/TRUE/FALSE   51.2 &#39;owid-covid-data.csv&#39;
+1043 extreme_poverty 1/0/T/F/TRUE/FALSE   1.1  &#39;owid-covid-data.csv&#39;
+1043 female_smokers  1/0/T/F/TRUE/FALSE   7.1  &#39;owid-covid-data.csv&#39;
+.... ............... .................. ...... .....................
+See problems(...) for more details.
+&#34;</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">table</span><span class="p">(</span><span class="n">covid</span><span class="err">$</span><span class="n">location</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>
+                     Afghanistan                          Albania 
+                             322                              253 
+                         Algeria                          Andorra 
+                             322                              254 
+                          Angola                         Anguilla 
+                             240                              235 
+             Antigua and Barbuda                        Argentina 
+                             242                              257 
+                         Armenia                            Aruba 
+                             322                              244 
+                       Australia                          Austria 
+                             322                              322 
+                      Azerbaijan                          Bahamas 
+                             322                              244 
+                         Bahrain                       Bangladesh 
+                             322                              259 
+                        Barbados                          Belarus 
+                             244                              322 
+                         Belgium                           Belize 
+                             320                              238 
+                           Benin                          Bermuda 
+                             245                              242 
+                          Bhutan                          Bolivia 
+                             251                              250 
+ Bonaire Sint Eustatius and Saba           Bosnia and Herzegovina 
+                             229                              251 
+                        Botswana                           Brazil 
+                             230                              322 
+          British Virgin Islands                           Brunei 
+                             235                              251 
+                        Bulgaria                     Burkina Faso 
+                             252                              249 
+                         Burundi                         Cambodia 
+                             230                              322 
+                        Cameroon                           Canada 
+                             251                              322 
+                      Cape Verde                   Cayman Islands 
+                             241                              242 
+        Central African Republic                             Chad 
+                             246                              242 
+                           Chile                            China 
+                             257                              322 
+                        Colombia                          Comoros 
+                             255                              199 
+                           Congo                       Costa Rica 
+                             246                              254 
+                   Cote d&#39;Ivoire                          Croatia 
+                             248                              322 
+                            Cuba                          Curacao 
+                             247                              244 
+                          Cyprus                   Czech Republic 
+                             250                              322 
+    Democratic Republic of Congo                          Denmark 
+                             249                              322 
+                        Djibouti                         Dominica 
+                             243                              239 
+              Dominican Republic                          Ecuador 
+                             322                              322 
+                           Egypt                      El Salvador 
+                             322                              243 
+               Equatorial Guinea                          Eritrea 
+                             247                              240 
+                         Estonia                         Ethiopia 
+                             322                              249 
+                  Faeroe Islands                 Falkland Islands 
+                             256                              227 
+                            Fiji                          Finland 
+                             292                              322 
+                          France                 French Polynesia 
+                             322                              243 
+                           Gabon                           Gambia 
+                             248                              244 
+                         Georgia                          Germany 
+                             322                              322 
+                           Ghana                        Gibraltar 
+                             248                              242 
+                          Greece                        Greenland 
+                             322                              242 
+                         Grenada                             Guam 
+                             239                              243 
+                       Guatemala                         Guernsey 
+                             274                              242 
+                          Guinea                    Guinea-Bissau 
+                             247                              235 
+                          Guyana                            Haiti 
+                             247                              242 
+                        Honduras                        Hong Kong 
+                             248                               72 
+                         Hungary                          Iceland 
+                             258                              322 
+                           India                        Indonesia 
+                             322                              322 
+                   International                             Iran 
+                             322                              322 
+                            Iraq                          Ireland 
+                             322                              322 
+                     Isle of Man                           Israel 
+                             241                              322 
+                           Italy                          Jamaica 
+                             322                              249 
+                           Japan                           Jersey 
+                             322                              242 
+                          Jordan                       Kazakhstan 
+                             255                              249 
+                           Kenya                           Kosovo 
+                             256                              248 
+                          Kuwait                       Kyrgyzstan 
+                             322                              243 
+                            Laos                           Latvia 
+                             237                              266 
+                         Lebanon                          Lesotho 
+                             322                              186 
+                         Liberia                            Libya 
+                             245                              258 
+                   Liechtenstein                        Lithuania 
+                             252                              322 
+                      Luxembourg                        Macedonia 
+                             322                              322 
+                      Madagascar                           Malawi 
+                             241                              233 
+                        Malaysia                         Maldives 
+                             322                              252 
+                            Mali                            Malta 
+                             236                              285 
+                Marshall Islands                       Mauritania 
+                              19                              247 
+                       Mauritius                           Mexico 
+                             242                              322 
+                         Moldova                           Monaco 
+                             252                              322 
+                        Mongolia                       Montenegro 
+                             248                              244 
+                      Montserrat                          Morocco 
+                             241                              284 
+                      Mozambique                          Myanmar 
+                             239                              240 
+                         Namibia                            Nepal 
+                             247                              322 
+                     Netherlands                    New Caledonia 
+                             322                              241 
+                     New Zealand                        Nicaragua 
+                             322                              243 
+                           Niger                          Nigeria 
+                             241                              322 
+        Northern Mariana Islands                           Norway 
+                             231                              322 
+                            Oman                         Pakistan 
+                             322                              322 
+                       Palestine                           Panama 
+                             255                              253 
+                Papua New Guinea                         Paraguay 
+                             241                              255 
+                            Peru                      Philippines 
+                             263                              322 
+                          Poland                         Portugal 
+                             256                              265 
+                     Puerto Rico                            Qatar 
+                             234                              322 
+                         Romania                           Russia 
+                             322                              322 
+                          Rwanda            Saint Kitts and Nevis 
+                             247                              236 
+                     Saint Lucia Saint Vincent and the Grenadines 
+                             247                              244 
+                      San Marino            Sao Tome and Principe 
+                             322                              222 
+                    Saudi Arabia                          Senegal 
+                             260                              263 
+                          Serbia                       Seychelles 
+                             265                              247 
+                    Sierra Leone                        Singapore 
+                             230                              322 
+       Sint Maarten (Dutch part)                         Slovakia 
+                             254                              256 
+                        Slovenia                  Solomon Islands 
+                             257                               32 
+                         Somalia                     South Africa 
+                             245                              284 
+                     South Korea                      South Sudan 
+                             322                              225 
+                           Spain                        Sri Lanka 
+                             321                              322 
+                           Sudan                         Suriname 
+                             248                              242 
+                       Swaziland                           Sweden 
+                             247                              319 
+                     Switzerland                            Syria 
+                             322                              239 
+                          Taiwan                       Tajikistan 
+                             322                              200 
+                        Tanzania                         Thailand 
+                             245                              322 
+                           Timor                             Togo 
+                             240                              258 
+             Trinidad and Tobago                          Tunisia 
+                             249                              254 
+                          Turkey         Turks and Caicos Islands 
+                             248                              237 
+                          Uganda                          Ukraine 
+                             240                              253 
+            United Arab Emirates                   United Kingdom 
+                             322                              322 
+                   United States     United States Virgin Islands 
+                             322                              238 
+                         Uruguay                       Uzbekistan 
+                             247                              246 
+                         Vanuatu                          Vatican 
+                               6                              250 
+                       Venezuela                          Vietnam 
+                             247                              322 
+               Wallis and Futuna                   Western Sahara 
+                              31                              205 
+                           World                            Yemen 
+                             322                              221 
+                          Zambia                         Zimbabwe 
+                             243                              241 </pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dim</span><span class="p">(</span><span class="n">covid</span><span class="p">[</span><span class="n">covid</span><span class="err">$</span><span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;United States&quot;</span><span class="p">,])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+&lt;ol class=list-inline&gt;
+	<li>322</li>
+	<li>50</li>
+&lt;/ol&gt;
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">head</span><span class="p">(</span><span class="n">covid</span><span class="p">[</span><span class="n">covid</span><span class="err">$</span><span class="n">iso_code</span> <span class="o">==</span> <span class="s2">&quot;USA&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="mi">20</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<table>
+<thead><tr><th scope="col">iso_code</th><th scope="col">continent</th><th scope="col">location</th><th scope="col">date</th><th scope="col">total_cases</th><th scope="col">new_cases</th><th scope="col">new_cases_smoothed</th><th scope="col">total_deaths</th><th scope="col">new_deaths</th><th scope="col">new_deaths_smoothed</th><th scope="col">total_cases_per_million</th><th scope="col">new_cases_per_million</th><th scope="col">new_cases_smoothed_per_million</th><th scope="col">total_deaths_per_million</th><th scope="col">new_deaths_per_million</th><th scope="col">new_deaths_smoothed_per_million</th><th scope="col">reproduction_rate</th><th scope="col">icu_patients</th><th scope="col">icu_patients_per_million</th><th scope="col">hosp_patients</th></tr></thead>
+<tbody>
+	<tr><td>USA          </td><td>North America</td><td>United States</td><td>2019-12-31   </td><td>NA           </td><td>0            </td><td>NA           </td><td>NA           </td><td>0            </td><td>NA           </td><td>NA           </td><td>0            </td><td>NA           </td><td>NA           </td><td>0            </td><td>NA           </td><td>NA           </td><td>NA           </td><td>NA           </td><td>NA           </td></tr>
+	<tr><td>USA          </td><td>North America</td><td>United States</td><td>2020-01-01   </td><td>NA           </td><td>0            </td><td>NA           </td><td>NA           </td><td>0            </td><td>NA           </td><td>NA           </td><td>0            </td><td>NA           </td><td>NA           </td><td>0            </td><td>NA           </td><td>NA           </td><td>NA           </td><td>NA           </td><td>NA           </td></tr>
+	<tr><td>USA          </td><td>North America</td><td>United States</td><td>2020-01-02   </td><td>NA           </td><td>0            </td><td>NA           </td><td>NA           </td><td>0            </td><td>NA           </td><td>NA           </td><td>0            </td><td>NA           </td><td>NA           </td><td>0            </td><td>NA           </td><td>NA           </td><td>NA           </td><td>NA           </td><td>NA           </td></tr>
+	<tr><td>USA          </td><td>North America</td><td>United States</td><td>2020-01-03   </td><td>NA           </td><td>0            </td><td>NA           </td><td>NA           </td><td>0            </td><td>NA           </td><td>NA           </td><td>0            </td><td>NA           </td><td>NA           </td><td>0            </td><td>NA           </td><td>NA           </td><td>NA           </td><td>NA           </td><td>NA           </td></tr>
+	<tr><td>USA          </td><td>North America</td><td>United States</td><td>2020-01-04   </td><td>NA           </td><td>0            </td><td>NA           </td><td>NA           </td><td>0            </td><td>NA           </td><td>NA           </td><td>0            </td><td>NA           </td><td>NA           </td><td>0            </td><td>NA           </td><td>NA           </td><td>NA           </td><td>NA           </td><td>NA           </td></tr>
+	<tr><td>USA          </td><td>North America</td><td>United States</td><td>2020-01-05   </td><td>NA           </td><td>0            </td><td>NA           </td><td>NA           </td><td>0            </td><td>NA           </td><td>NA           </td><td>0            </td><td>NA           </td><td>NA           </td><td>0            </td><td>NA           </td><td>NA           </td><td>NA           </td><td>NA           </td><td>NA           </td></tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">USA_cases</span> <span class="o">&lt;-</span> <span class="n">covid</span><span class="p">[</span><span class="o">!</span>is.na<span class="o">(</span>covid<span class="nv">$iso_code</span><span class="o">)</span>, <span class="o">]</span> %&gt;% filter<span class="o">(</span><span class="nv">iso_code</span> <span class="o">==</span> <span class="s2">&quot;USA&quot;</span><span class="o">)</span> %&gt;% <span class="k">select</span><span class="o">(</span><span class="s2">&quot;total_cases&quot;</span>, <span class="s2">&quot;date&quot;</span><span class="o">)</span> %&gt;% na.omit<span class="o">()</span>
+<span class="n">head</span><span class="p">(</span><span class="n">USA_cases</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<table>
+<thead><tr><th scope="col">total_cases</th><th scope="col">date</th></tr></thead>
+<tbody>
+	<tr><td>1         </td><td>2020-01-21</td></tr>
+	<tr><td>1         </td><td>2020-01-22</td></tr>
+	<tr><td>1         </td><td>2020-01-23</td></tr>
+	<tr><td>1         </td><td>2020-01-24</td></tr>
+	<tr><td>2         </td><td>2020-01-25</td></tr>
+	<tr><td>2         </td><td>2020-01-26</td></tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">USA_cases</span><span class="p">[[</span><span class="mi">2</span><span class="p">]],</span> <span class="n">USA_cases</span><span class="p">[[</span><span class="mi">1</span><span class="p">]],</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;l&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+w3njkAAAAABJRU5ErkJggg==" />
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">covid</span><span class="p">[</span><span class="o">!</span>is.na<span class="o">(</span>covid<span class="nv">$iso_code</span><span class="o">)</span>, <span class="o">]</span> %&gt;% filter<span class="o">(</span><span class="nv">iso_code</span> <span class="o">==</span> <span class="s2">&quot;USA&quot;</span><span class="o">)</span> %&gt;% <span class="k">select</span><span class="o">(</span>date,new_cases<span class="o">)</span> %&gt;% na.omit<span class="o">()</span> %&gt;%
+    <span class="n">plot</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;l&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA0gAAANICAMAAADKOT/pAAAAMFBMVEUAAABNTU1oaGh8fHyM
+jIyampqnp6eysrK9vb3Hx8fQ0NDZ2dnh4eHp6enw8PD////QFLu4AAAACXBIWXMAABJ0AAAS
+dAHeZh94AAAgAElEQVR4nO3di3aizBZG0Y0aYxuV93/bFlTk4gXhq6pduOY4J9H8gUJkBUVa
+rQQwm6VeAGAJCAkQICRAgJAAAUICBAgJECAkQICQAAFCAgQICRAgJECAkAABQgIECAkQICRA
+gJAAAUICBAgJECAkQICQAAFCAgQICRAgJECAkAABQgIECAkQICRAgJAAAUICBAgJECAkQICQ
+AAFCAgQICRAgJECAkAABQgIECAkQICRAgJAAAUICBAgJECAkQICQAAFCAgQICRAgJECAkAAB
+QgIECAkQICRAgJAAAUICBAgJECAkQICQAAFCAgQICRAgJECAkAABQgIECAkQICRAgJAAAUIC
+BAgJECAkQICQAAFCAgQICRAgJECAkAABQgIECAkQICRAgJAAAUICBAgJECAkQICQAAFCAgQI
+CRAgJECAkAABQgIECAkQICRAgJAAAUICBAgJECAkQICQAAFCAgQICRAgJECAkAABQgIEIoRk
+QGYmbOX6cBIMASgREiBASIAAIQEChAQIEBIgQEiAACEBAoQECBASIEBIgAAhAQKEBAgQEiBA
+SIAAIQEChAQIEBIgQEiAACEBAoQECBASIEBIwDgvt0pCAsYhJECAkAABQgIECAkQICRAgJAA
+AUICBAgJECAkQICQAAFCAgQICRAgJECAkAABQgIE7NVmSUjAOIQECBASIEBIgAAhAQKEBAgQ
+EiBASMB89nKzJCRgFEICBAgJECAkQICQAAFCAgQICRAgJECAkAABQgIECAkQICRAgJAAAUIC
+BAgJECAkQICQAAFCAgQICRAgJECAkAABQgIE7OV2SUjAKIQECBASIEBIgAAhAQKEBAgQEiBA
+SIAAIQEChAQIEBIgQEiAACEBAoQECBASIEBIgAAhAQKEBAgQEiBASIAAIQEChAQIEBIgQEiA
+ACEBAoQEzGclIQGzERIgQEiAgKeQ/n43Vtls/0INAYThJ6TTyu7WQYYAQvET0taKf4f60nFf
+2DbEEEAofkIq7NBcPlgRYgggFD8hmT27IhsCCMVPSOyRkDE/IZ2fI+2P9SWeIyE7fkIq162j
+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" />
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">USA</span> <span class="o">&lt;-</span> <span class="n">covid</span><span class="p">[</span><span class="o">!</span>is.na<span class="o">(</span>covid<span class="nv">$iso_code</span><span class="o">)</span>, <span class="o">]</span> %&gt;% filter<span class="o">(</span><span class="nv">iso_code</span> <span class="o">==</span> <span class="s2">&quot;USA&quot;</span><span class="o">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">USA</span><span class="p">[,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">12</span><span class="p">]</span> <span class="o">%&gt;%</span> <span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">date</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">total_deaths</span><span class="p">))</span> <span class="o">+</span> <span class="n">geom_line</span><span class="p">()</span> <span class="o">+</span><span class="n">geom_smooth</span><span class="p">()</span><span class="c1"># +xlim(1, 20)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>`geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;
+Warning message:
+&#34;Removed 61 rows containing non-finite values (stat_smooth).&#34;Warning message:
+&#34;Removed 61 rows containing missing values (geom_path).&#34;</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+KUSiqAyFSBSVoRCJojIUIlFUhkIkispQVURa1wjNV86Hv6/15I9eav1VtcdwX4gUXWvn49+X
+Z5GOEt2oJPB3QKToQqS6tb759vBzpaom0ml7Xu8Et+nndRLpPPL1zttfYHdYgfX4u6Naj384
+dpHCUa+WSJdlPPaiozoP+Dzy+mu4oBoRSejvUPVoN5oKP7Ue/SOyiPGl1YRR9SDSTuLvUE+k
+0658+bOTWp+/em3EQzkePyJda/Q/dX8iHctvIx7K8fgR6VA3y+dSpPNX143oePzjq3aIdHm4
+7k2k69JdLjbUHM6CmlwBTzV6HknofwbmR7vzpcr9N98iXS5/O6upFfBV18vd5ydR6l865V67
+pVV96SilQqSlhUjUqBBpaSESNSpEoqgMhUgUlaEQiaIyFCJRVIZCJIrKUIhEURkKkZzXcLOC
+v7goX6kQyXndijSwnpWKiXdeiKRRTLzf+vM+fD+q8+/3YVh/7D06/PHvj2H48bf28PoqRHJb
+f9df2nzfm/N7ONTHWaT9fxi+1R5fX4VIbutjeN/9fd+b823432733/6ng0c/v5T6+q+/ag+w
+q0Ikt/Vt+PN1vDs+Kvrz++f7RaRvh3/1deyj7AqR3NZRocPX9+PZ7vSnYTj/kTIrZtttXUX6
+MXz79fsPItUsZtttXY92x0t1d0c7yrSYc7f1c3j/uzs9Mvr3dNnhINLH/mLD/4b32gPsqhDJ
+bV0vf38M18dI69N/GIb/ag+wq0Ikv/Xn+/kJ2R/D8P7v/qdfe5F2fw5/rj28vgqRKCpDIRJF
+ZShEoqgMhUgUlaEQiaIyFCJRVIZCJIrKUIhEURkKkSgqQyESRWUoRKKoDIVIFJWh/g816YGE
+PGyJrwAAAABJRU5ErkJggg==" />
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+</div>
+
+
+
+  </div><a class="u-url" href="/2020/11/20/Covid-EDA.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>An easy to use blogging platform with support for Jupyter Notebooks.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/fastai" title="fastai"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/fastdotai" title="fastdotai"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
